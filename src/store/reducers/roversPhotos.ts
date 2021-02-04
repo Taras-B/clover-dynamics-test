@@ -11,9 +11,9 @@ import {
 const initialExpenseState: IRoversState = {
   photos: [],
   queryingBySol: {
-    camera: EnumCameraRover.FHAZ,
+    camera: 'fhaz',
     sol: 100,
-    rovers: EnumRovers.CURIOSITY,
+    rovers: 'curiosity',
     page: 1,
   },
   loading: LoadingState.LOADED,

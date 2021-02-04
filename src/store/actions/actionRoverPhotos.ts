@@ -49,19 +49,27 @@ export const getRoversPhotos = (): AppThunk => async (
 }
 
 export const searchRoversPhotos = (
-  rovers: EnumRovers,
+  rovers: string,
   sol: number,
-  camera: EnumCameraRover
-): AppThunk => async (dispatch: AppDispatch) => {
+  camera: string
+): AppThunk => async (dispatch: AppDispatch, getState) => {
   try {
     dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
+    const queryData = getState().roversPhotos.queryingBySol
 
-    const data = await roverAPI.get(rovers, sol, camera, 1)
     //TODO: add error handling
+    if (
+      camera !== queryData.camera ||
+      rovers !== queryData.rovers ||
+      sol !== queryData.sol
+    ) {
+      const data = await roverAPI.get(rovers, sol, camera, 1)
 
-    dispatch(actionsRoverPhotos.setQuerying({ rovers, sol, camera, page: 1 }))
-    dispatch(actionsRoverPhotos.set(data.photos))
-    console.log(data)
+      dispatch(actionsRoverPhotos.setQuerying({ rovers, sol, camera, page: 1 }))
+      dispatch(actionsRoverPhotos.set(data.photos))
+      console.log('SEARCH_ROVERS', data)
+    }
+    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
   } catch (e) {
     console.log(e)
     dispatch(actionsRoverPhotos.setLoading(LoadingState.ERROR))

@@ -26,9 +26,9 @@ export enum LoadingState {
 }
 
 export enum EnumRovers {
-  CURIOSITY = 'curiosity',
-  SPIRIT = 'spirit',
-  OPPORTUNITY = 'opportunity',
+  Curiosity = 'curiosity',
+  Spirit = 'spirit',
+  Opportunity = 'opportunity',
 }
 
 export enum EnumCameraRover {
@@ -42,11 +42,12 @@ export enum EnumCameraRover {
   PANCAM = 'pancam',
   MINITES = 'minites',
 }
+
 export interface IQueryingBySol {
   sol: number
-  camera: EnumCameraRover
+  camera: string
   page: number
-  rovers: EnumRovers
+  rovers: string
 }
 export interface IRoversState {
   photos: IDataRoverPhotos[]
@@ -62,8 +63,6 @@ export enum EnumActionType {
   SET_SEARCH_PHOTOS = 'rovers/SET_SEARCH_PHOTOS',
   SET_QUERYING_SEARCH_PHOTOS = 'rovers/SET_QUERYING_SEARCH_PHOTOS',
 }
-
-export type IActionQueryPayload = Omit<IQueryingBySol, 'page'>
 
 export interface ISetRoversPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.SET_ROVER_PHOTOS
