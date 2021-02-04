@@ -55,8 +55,8 @@ export const ListPhoto = () => {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size='small' color='primary'>
-                Learn More
+              <Button size='small' color='primary' href={item.img_src} target='_blank'>
+                open photo
               </Button>
             </CardActions>
           </Card>

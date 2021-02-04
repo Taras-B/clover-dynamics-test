@@ -56,10 +56,15 @@ export interface IRoversState {
 }
 
 export type AlertTypeMessageT = 'success' | 'info' | 'warning' | 'error' | undefined
-export interface IAppState {
+export interface IAlertData {
   open: boolean
-  message: string | null
+  message: string
   type: AlertTypeMessageT
+}
+
+export interface IAppState {
+  loading: LoadingState
+  alert: IAlertData
 }
 
 export enum EnumActionType {
@@ -76,7 +81,7 @@ export enum EnumActionType {
 
 export interface ISetAlertAction extends Action<EnumActionType> {
   type: EnumActionType.SET_ALERT
-  payload: Omit<IAppState, 'open'>
+  payload: Omit<IAlertData, 'open'>
 }
 export interface ISetCloseAlertAction extends Action<EnumActionType> {
   type: EnumActionType.SET_CLOSE_ALERT

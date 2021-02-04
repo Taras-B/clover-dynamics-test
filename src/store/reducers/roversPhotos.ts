@@ -1,7 +1,7 @@
 import produce, { Draft } from 'immer'
 import { IRoversState, LoadingState, EnumActionType, RoversActionT } from '../types'
 
-const initialExpenseState: IRoversState = {
+const initialRoverPhotoState: IRoversState = {
   photos: [],
   queryingBySol: {
     camera: 'fhaz',
@@ -20,11 +20,8 @@ export const roversPhotosReducer = produce(
         draft.loading = LoadingState.LOADED
         break
       case EnumActionType.SET_QUERYING_SEARCH_PHOTOS:
-        // const { camera, sol, rovers } = action.payload
         draft.queryingBySol = action.payload
-        // draft.queryingBySol.sol = sol
-        // draft.queryingBySol.rovers = rovers
-        // draft.queryingBySol.page = 1
+
         break
       case EnumActionType.SET_PAGE_PHOTOS:
         draft.queryingBySol.page++
@@ -33,5 +30,5 @@ export const roversPhotosReducer = produce(
         break
     }
   },
-  initialExpenseState
+  initialRoverPhotoState
 )

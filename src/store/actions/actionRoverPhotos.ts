@@ -10,6 +10,7 @@ import {
   LoadingState,
 } from '../types'
 import { roverAPI } from '../../api'
+import { actionApp } from './actionApp'
 
 export const actionsRoverPhotos = {
   set: (payload: IDataRoverPhotos[]): ISetRoversPhotosAction => ({
@@ -47,6 +48,7 @@ export const getRoversPhotos = (): AppThunk => async (
   } catch (e) {
     console.log(e)
     dispatch(actionsRoverPhotos.setLoading(LoadingState.ERROR))
+    dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }
 
@@ -59,7 +61,6 @@ export const searchRoversPhotos = (
     dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
     const queryData = getState().roversPhotos.queryingBySol
 
-    //TODO: add error handling
     if (
       camera !== queryData.camera ||
       rovers !== queryData.rovers ||
@@ -69,13 +70,30 @@ export const searchRoversPhotos = (
       dispatch(actionsRoverPhotos.setQuerying({ rovers, sol, camera, page: 1 }))
       if (data.photos.length !== 0) {
         dispatch(actionsRoverPhotos.set(data.photos))
+        dispatch(actionApp.setAlert({ message: 'Ok, photos on page', type: 'success' }))
+
         console.log('SEARCH_ROVERS', data)
+      } else {
+        dispatch(
+          actionApp.setAlert({
+            message: 'Not found photo. Enter another values',
+            type: 'error',
+          })
+        )
       }
+    } else {
+      dispatch(
+        actionApp.setAlert({
+          message: 'You find this. Enter other values',
+          type: 'warning',
+        })
+      )
     }
     dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
   } catch (e) {
     console.log(e)
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.ERROR))
+    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
+    dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }
 export const loadMoreRoversPhotos = (): AppThunk => async (
@@ -90,12 +108,16 @@ export const loadMoreRoversPhotos = (): AppThunk => async (
     const data = await roverAPI.get(rovers, sol, camera, page)
     if (data.photos.length !== 0) {
       dispatch(actionsRoverPhotos.set(data.photos))
+      dispatch(actionApp.setAlert({ message: 'Ok photo on page', type: 'info' }))
       console.log('LOAD_MORE_THUNK', data)
+    } else {
+      dispatch(actionApp.setAlert({ message: 'Not found photo', type: 'error' }))
     }
 
     //TODO: add error handling
   } catch (e) {
     console.log(e)
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.ERROR))
+    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
+    dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }
