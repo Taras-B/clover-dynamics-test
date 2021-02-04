@@ -1,6 +1,6 @@
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/rootReducer'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,10 +11,14 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import { loadMoreRoversPhotos } from '../../store/actions/actionRoverPhotos'
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 460,
+  },
+  wrapper: {
+    marginTop: 20,
   },
   media: {
     height: 180,
@@ -23,10 +27,15 @@ const useStyles = makeStyles({
 
 export const ListPhoto = () => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const photos = useSelector((state: RootState) => state.roversPhotos.photos)
 
+  const loadMoreClick = () => {
+    dispatch(loadMoreRoversPhotos())
+  }
+
   return (
-    <Grid container justify='center' spacing={3}>
+    <Grid container justify='center' spacing={3} className={classes.wrapper}>
       {photos.map((item, i) => (
         <Grid key={i} item xs={12} md={4} sm={6} className={classes.root}>
           <Card>
@@ -53,6 +62,14 @@ export const ListPhoto = () => {
           </Card>
         </Grid>
       ))}
+
+      {photos.length > 0 && (
+        <Grid item xs={12}>
+          <Button onClick={loadMoreClick} variant='contained' color='primary'>
+            Load more...
+          </Button>
+        </Grid>
+      )}
     </Grid>
   )
 }

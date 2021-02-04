@@ -26,6 +26,9 @@ export const roversPhotosReducer = produce(
         // draft.queryingBySol.rovers = rovers
         // draft.queryingBySol.page = 1
         break
+      case EnumActionType.SET_PAGE_PHOTOS:
+        draft.queryingBySol.page++
+        break
       default:
         break
     }

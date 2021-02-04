@@ -4,6 +4,7 @@ import {
   IDataRoverPhotos,
   IFetchRoverPhotosAction,
   IQueryingBySol,
+  ISetPagePhotosAction,
   ISetQueryingSearchPhotosAction,
   ISetRoversPhotosAction,
   LoadingState,
@@ -18,6 +19,9 @@ export const actionsRoverPhotos = {
   setQuerying: (payload: IQueryingBySol): ISetQueryingSearchPhotosAction => ({
     type: EnumActionType.SET_QUERYING_SEARCH_PHOTOS,
     payload,
+  }),
+  setPage: (): ISetPagePhotosAction => ({
+    type: EnumActionType.SET_PAGE_PHOTOS,
   }),
   setLoading: (payload: LoadingState): IFetchRoverPhotosAction => ({
     type: EnumActionType.FETCH_ROVER_PHOTOS,
@@ -62,10 +66,11 @@ export const searchRoversPhotos = (
       sol !== queryData.sol
     ) {
       const data = await roverAPI.get(rovers, sol, camera, 1)
-
       dispatch(actionsRoverPhotos.setQuerying({ rovers, sol, camera, page: 1 }))
-      dispatch(actionsRoverPhotos.set(data.photos))
-      console.log('SEARCH_ROVERS', data)
+      if (data.photos.length !== 0) {
+        dispatch(actionsRoverPhotos.set(data.photos))
+        console.log('SEARCH_ROVERS', data)
+      }
     }
     dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
   } catch (e) {
@@ -79,10 +84,14 @@ export const loadMoreRoversPhotos = (): AppThunk => async (
 ) => {
   try {
     dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
+    dispatch(actionsRoverPhotos.setPage())
+
     let { camera, sol, page, rovers } = getState().roversPhotos.queryingBySol
-    const data = await roverAPI.get(rovers, sol, camera, page++)
-    dispatch(actionsRoverPhotos.set(data.photos))
-    console.log(data)
+    const data = await roverAPI.get(rovers, sol, camera, page)
+    if (data.photos.length !== 0) {
+      dispatch(actionsRoverPhotos.set(data.photos))
+      console.log('LOAD_MORE_THUNK', data)
+    }
 
     //TODO: add error handling
   } catch (e) {

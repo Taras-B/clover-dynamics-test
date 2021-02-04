@@ -55,15 +55,32 @@ export interface IRoversState {
   loading: LoadingState
 }
 
+export type AlertTypeMessageT = 'success' | 'info' | 'warning' | 'error' | undefined
+export interface IAppState {
+  open: boolean
+  message: string | null
+  type: AlertTypeMessageT
+}
+
 export enum EnumActionType {
   FETCH_ROVER_PHOTOS = 'rovers/FETCH_ROVER_PHOTOS',
   SET_ROVER_PHOTOS = 'rovers/SET_ROVER_PHOTOS',
   SET_LOADING = 'rovers/SET_LOADING',
   FETCH_SEARCH_PHOTOS = 'rovers/FETCH_SEARCH_PHOTOS',
+  SET_PAGE_PHOTOS = 'rovers/SET_PAGE_PHOTOS',
   SET_SEARCH_PHOTOS = 'rovers/SET_SEARCH_PHOTOS',
   SET_QUERYING_SEARCH_PHOTOS = 'rovers/SET_QUERYING_SEARCH_PHOTOS',
+  SET_ALERT = 'app/SET_ALERT',
+  SET_CLOSE_ALERT = 'app/SET_CLOSE_ALERT',
 }
 
+export interface ISetAlertAction extends Action<EnumActionType> {
+  type: EnumActionType.SET_ALERT
+  payload: Omit<IAppState, 'open'>
+}
+export interface ISetCloseAlertAction extends Action<EnumActionType> {
+  type: EnumActionType.SET_CLOSE_ALERT
+}
 export interface ISetRoversPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.SET_ROVER_PHOTOS
   payload: IDataRoverPhotos[]
@@ -75,6 +92,9 @@ export interface IFetchRoverPhotosAction extends Action<EnumActionType> {
 
 export interface IFetchSearchPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.FETCH_SEARCH_PHOTOS
+}
+export interface ISetPagePhotosAction extends Action<EnumActionType> {
+  type: EnumActionType.SET_PAGE_PHOTOS
 }
 export interface ISetQueryingSearchPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.SET_QUERYING_SEARCH_PHOTOS
@@ -91,3 +111,6 @@ export type RoversActionT =
   | ISetSearchPhotosAction
   | IFetchSearchPhotosAction
   | ISetQueryingSearchPhotosAction
+  | ISetPagePhotosAction
+
+export type AppActionT = ISetAlertAction | ISetCloseAlertAction
