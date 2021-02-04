@@ -14,10 +14,13 @@ export const roverAPI = {
   get(
     rover: string = 'curiosity',
     sol: number = 100,
-    camera: string = 'fhaz'
+    camera: string = 'fhaz',
+    page: number = 1
   ): Promise<IGetResult> {
     return instance
-      .get<IGetResult>(`${rover}/photos?sol=${sol}&camera=${camera}&API_KEY=${API_KEY}`)
+      .get<IGetResult>(
+        `${rover}/photos?sol=${sol}&page=${page}&camera=${camera}&API_KEY=${API_KEY}`
+      )
       .then((res) => res.data)
   },
 }

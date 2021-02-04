@@ -25,9 +25,32 @@ export enum LoadingState {
   ERROR = 'ERROR',
 }
 
+export enum EnumRovers {
+  CURIOSITY = 'curiosity',
+  SPIRIT = 'spirit',
+  OPPORTUNITY = 'opportunity',
+}
+
+export enum EnumCameraRover {
+  FHAZ = 'fhaz',
+  RHAZ = 'rhaz',
+  MAST = 'mast',
+  CHERCAM = 'chercam',
+  MAHLI = 'mahli',
+  MARDI = 'mardi',
+  NAVCAM = 'navcam',
+  PANCAM = 'pancam',
+  MINITES = 'minites',
+}
+export interface IQueryingBySol {
+  sol: number
+  camera: EnumCameraRover
+  page: number
+  rovers: EnumRovers
+}
 export interface IRoversState {
   photos: IDataRoverPhotos[]
-  currentPage: number
+  queryingBySol: IQueryingBySol
   loading: LoadingState
 }
 
@@ -37,7 +60,10 @@ export enum EnumActionType {
   SET_LOADING = 'rovers/SET_LOADING',
   FETCH_SEARCH_PHOTOS = 'rovers/FETCH_SEARCH_PHOTOS',
   SET_SEARCH_PHOTOS = 'rovers/SET_SEARCH_PHOTOS',
+  SET_QUERYING_SEARCH_PHOTOS = 'rovers/SET_QUERYING_SEARCH_PHOTOS',
 }
+
+export type IActionQueryPayload = Omit<IQueryingBySol, 'page'>
 
 export interface ISetRoversPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.SET_ROVER_PHOTOS
@@ -51,6 +77,10 @@ export interface IFetchRoverPhotosAction extends Action<EnumActionType> {
 export interface IFetchSearchPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.FETCH_SEARCH_PHOTOS
 }
+export interface ISetQueryingSearchPhotosAction extends Action<EnumActionType> {
+  type: EnumActionType.SET_QUERYING_SEARCH_PHOTOS
+  payload: IQueryingBySol
+}
 export interface ISetSearchPhotosAction extends Action<EnumActionType> {
   type: EnumActionType.SET_SEARCH_PHOTOS
   payload: IDataRoverPhotos[]
@@ -61,3 +91,4 @@ export type RoversActionT =
   | IFetchRoverPhotosAction
   | ISetSearchPhotosAction
   | IFetchSearchPhotosAction
+  | ISetQueryingSearchPhotosAction
