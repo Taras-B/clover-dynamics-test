@@ -1,12 +1,5 @@
 import produce, { Draft } from 'immer'
-import {
-  IRoversState,
-  LoadingState,
-  EnumActionType,
-  RoversActionT,
-  EnumCameraRover,
-  EnumRovers,
-} from '../types'
+import { IRoversState, LoadingState, EnumActionType, RoversActionT } from '../types'
 
 const initialExpenseState: IRoversState = {
   photos: [],

@@ -7,12 +7,11 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import { EnumRovers, EnumCameraRover, IQueryingBySol } from '../../store/types'
+import { EnumRovers, EnumCameraRover } from '../../store/types'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import { searchRoversPhotos } from '../../store/actions/actionRoverPhotos'
 
-// type IFormDate = Omit<IQueryingBySol, 'page'>
 type IFormDate = {
   sol: number
   rovers: string
@@ -28,7 +27,7 @@ export const SearchSelect = () => {
     dispatch(searchRoversPhotos(rovers.toLowerCase(), sol, camera.toLowerCase()))
   }
   return (
-    <Grid container justify='center' spacing={4}>
+    <Grid container justify='center'>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
@@ -63,7 +62,6 @@ export const SearchSelect = () => {
               name='sol'
               control={control}
               defaultValue=''
-              fullWidth
               label='Sol'
               required={true}
               type='number'

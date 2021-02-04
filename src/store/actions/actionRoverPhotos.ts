@@ -1,8 +1,6 @@
 import { AppDispatch, AppThunk } from '..'
 import {
   EnumActionType,
-  EnumCameraRover,
-  EnumRovers,
   IDataRoverPhotos,
   IFetchRoverPhotosAction,
   IQueryingBySol,
