@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/clover-dynamics-test/static/css/main.106baaae.chunk.css",
-    "main.js": "/clover-dynamics-test/static/js/main.23019fb0.chunk.js",
-    "main.js.map": "/clover-dynamics-test/static/js/main.23019fb0.chunk.js.map",
+    "main.js": "/clover-dynamics-test/static/js/main.0c0df807.chunk.js",
+    "main.js.map": "/clover-dynamics-test/static/js/main.0c0df807.chunk.js.map",
     "runtime-main.js": "/clover-dynamics-test/static/js/runtime-main.aee8c5c7.js",
     "runtime-main.js.map": "/clover-dynamics-test/static/js/runtime-main.aee8c5c7.js.map",
     "static/js/2.a8a1f41d.chunk.js": "/clover-dynamics-test/static/js/2.a8a1f41d.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.aee8c5c7.js",
     "static/js/2.a8a1f41d.chunk.js",
     "static/css/main.106baaae.chunk.css",
-    "static/js/main.23019fb0.chunk.js"
+    "static/js/main.0c0df807.chunk.js"
   ]
 }
