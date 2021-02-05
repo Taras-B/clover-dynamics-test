@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/clover-dynamics-test/static/css/main.106baaae.chunk.css",
+    "main.js": "/clover-dynamics-test/static/js/main.23019fb0.chunk.js",
+    "main.js.map": "/clover-dynamics-test/static/js/main.23019fb0.chunk.js.map",
+    "runtime-main.js": "/clover-dynamics-test/static/js/runtime-main.aee8c5c7.js",
+    "runtime-main.js.map": "/clover-dynamics-test/static/js/runtime-main.aee8c5c7.js.map",
+    "static/js/2.a8a1f41d.chunk.js": "/clover-dynamics-test/static/js/2.a8a1f41d.chunk.js",
+    "static/js/2.a8a1f41d.chunk.js.map": "/clover-dynamics-test/static/js/2.a8a1f41d.chunk.js.map",
+    "static/js/3.6993ebe5.chunk.js": "/clover-dynamics-test/static/js/3.6993ebe5.chunk.js",
+    "static/js/3.6993ebe5.chunk.js.map": "/clover-dynamics-test/static/js/3.6993ebe5.chunk.js.map",
+    "index.html": "/clover-dynamics-test/index.html",
+    "static/css/main.106baaae.chunk.css.map": "/clover-dynamics-test/static/css/main.106baaae.chunk.css.map",
+    "static/js/2.a8a1f41d.chunk.js.LICENSE.txt": "/clover-dynamics-test/static/js/2.a8a1f41d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.aee8c5c7.js",
+    "static/js/2.a8a1f41d.chunk.js",
+    "static/css/main.106baaae.chunk.css",
+    "static/js/main.23019fb0.chunk.js"
+  ]
+}
