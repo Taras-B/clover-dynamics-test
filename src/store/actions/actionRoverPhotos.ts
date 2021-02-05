@@ -42,7 +42,6 @@ export const getRoversPhotos = (): AppThunk => async (
 
     const data = await roverAPI.get(rovers, sol, camera, page)
     dispatch(actionsRoverPhotos.set(data.photos))
-    console.log(data)
     dispatch(actionApp.setLoading(LoadingState.LOADED))
   } catch (e) {
     console.log(e)
