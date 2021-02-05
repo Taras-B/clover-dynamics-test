@@ -2,12 +2,12 @@ import { AppDispatch, AppThunk } from '..'
 import {
   EnumActionType,
   IDataRoverPhotos,
-  IFetchRoverPhotosAction,
   IQueryingBySol,
   ISetPagePhotosAction,
   ISetQueryingSearchPhotosAction,
   ISetRoversPhotosAction,
   LoadingState,
+  ISetSearchPhotosAction,
 } from '../types'
 import { roverAPI } from '../../api'
 import { actionApp } from './actionApp'
@@ -17,16 +17,16 @@ export const actionsRoverPhotos = {
     type: EnumActionType.SET_ROVER_PHOTOS,
     payload,
   }),
+  setSearchPhotos: (payload: IDataRoverPhotos[]): ISetSearchPhotosAction => ({
+    type: EnumActionType.SET_SEARCH_PHOTOS,
+    payload,
+  }),
   setQuerying: (payload: IQueryingBySol): ISetQueryingSearchPhotosAction => ({
     type: EnumActionType.SET_QUERYING_SEARCH_PHOTOS,
     payload,
   }),
   setPage: (): ISetPagePhotosAction => ({
     type: EnumActionType.SET_PAGE_PHOTOS,
-  }),
-  setLoading: (payload: LoadingState): IFetchRoverPhotosAction => ({
-    type: EnumActionType.FETCH_ROVER_PHOTOS,
-    payload,
   }),
 }
 
@@ -37,17 +37,16 @@ export const getRoversPhotos = (): AppThunk => async (
   getState
 ) => {
   try {
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
+    dispatch(actionApp.setLoading(LoadingState.LOADING))
     let { camera, sol, page, rovers } = getState().roversPhotos.queryingBySol
 
     const data = await roverAPI.get(rovers, sol, camera, page)
     dispatch(actionsRoverPhotos.set(data.photos))
     console.log(data)
-
-    //TODO: add error handling
+    dispatch(actionApp.setLoading(LoadingState.LOADED))
   } catch (e) {
     console.log(e)
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.ERROR))
+    dispatch(actionApp.setLoading(LoadingState.ERROR))
     dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }
@@ -58,7 +57,7 @@ export const searchRoversPhotos = (
   camera: string
 ): AppThunk => async (dispatch: AppDispatch, getState) => {
   try {
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
+    dispatch(actionApp.setLoading(LoadingState.LOADING))
     const queryData = getState().roversPhotos.queryingBySol
 
     if (
@@ -68,12 +67,13 @@ export const searchRoversPhotos = (
     ) {
       const data = await roverAPI.get(rovers, sol, camera, 1)
       dispatch(actionsRoverPhotos.setQuerying({ rovers, sol, camera, page: 1 }))
-      if (data.photos.length !== 0) {
-        dispatch(actionsRoverPhotos.set(data.photos))
-        dispatch(actionApp.setAlert({ message: 'Ok, photos on page', type: 'success' }))
 
-        console.log('SEARCH_ROVERS', data)
+      if (data.photos.length !== 0) {
+        dispatch(actionsRoverPhotos.setSearchPhotos(data.photos))
+        dispatch(actionApp.setLoading(LoadingState.LOADED))
+        dispatch(actionApp.setAlert({ message: 'Ok, photos on page', type: 'success' }))
       } else {
+        dispatch(actionApp.setLoading(LoadingState.LOADED))
         dispatch(
           actionApp.setAlert({
             message: 'Not found photo. Enter another values',
@@ -82,6 +82,7 @@ export const searchRoversPhotos = (
         )
       }
     } else {
+      dispatch(actionApp.setLoading(LoadingState.LOADED))
       dispatch(
         actionApp.setAlert({
           message: 'You find this. Enter other values',
@@ -89,10 +90,9 @@ export const searchRoversPhotos = (
         })
       )
     }
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
   } catch (e) {
     console.log(e)
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
+    dispatch(actionApp.setLoading(LoadingState.LOADED))
     dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }
@@ -101,23 +101,22 @@ export const loadMoreRoversPhotos = (): AppThunk => async (
   getState
 ) => {
   try {
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADING))
+    dispatch(actionApp.setLoading(LoadingState.LOADING))
     dispatch(actionsRoverPhotos.setPage())
 
     let { camera, sol, page, rovers } = getState().roversPhotos.queryingBySol
     const data = await roverAPI.get(rovers, sol, camera, page)
     if (data.photos.length !== 0) {
       dispatch(actionsRoverPhotos.set(data.photos))
+      dispatch(actionApp.setLoading(LoadingState.LOADED))
       dispatch(actionApp.setAlert({ message: 'Ok photo on page', type: 'info' }))
-      console.log('LOAD_MORE_THUNK', data)
     } else {
+      dispatch(actionApp.setLoading(LoadingState.LOADED))
       dispatch(actionApp.setAlert({ message: 'Not found photo', type: 'error' }))
     }
-
-    //TODO: add error handling
   } catch (e) {
     console.log(e)
-    dispatch(actionsRoverPhotos.setLoading(LoadingState.LOADED))
+    dispatch(actionApp.setLoading(LoadingState.LOADED))
     dispatch(actionApp.setAlert({ message: 'Error on server', type: 'error' }))
   }
 }

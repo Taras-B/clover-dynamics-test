@@ -2,15 +2,16 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Control, Controller, useForm } from 'react-hook-form'
 
+import { EnumRovers, EnumCameraRover } from '../../store/types'
+import { searchRoversPhotos } from '../../store/actions/actionRoverPhotos'
+
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import { EnumRovers, EnumCameraRover } from '../../store/types'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
-import { searchRoversPhotos } from '../../store/actions/actionRoverPhotos'
 
 type IFormDate = {
   sol: number
@@ -23,7 +24,6 @@ export const SearchSelect = () => {
   const { control, handleSubmit } = useForm()
 
   const onSubmitForm = ({ camera, rovers, sol }: IFormDate) => {
-    console.log('SUBMIT', rovers)
     dispatch(searchRoversPhotos(rovers.toLowerCase(), sol, camera.toLowerCase()))
   }
   return (

@@ -1,8 +1,10 @@
-import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/rootReducer'
 
+import { loadMoreRoversPhotos } from '../../store/actions/actionRoverPhotos'
+
+import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -11,7 +13,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { loadMoreRoversPhotos } from '../../store/actions/actionRoverPhotos'
+import Divider from '@material-ui/core/Divider'
 
 const useStyles = makeStyles({
   root: {
@@ -46,11 +48,24 @@ export const ListPhoto = () => {
                 title='Image Mars'
               />
               <CardContent>
-                <Typography gutterBottom variant='h5' component='h2'>
+                <Typography variant='h5' color='textPrimary'>
+                  Rover name:
+                </Typography>
+                <Typography variant='h6' component='h2' color='textSecondary'>
                   {item.rover.name}
+                </Typography>
+                <Divider />
+                <Typography variant='body1' color='textPrimary'>
+                  Camera name:
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>
                   {item.camera.full_name}
+                </Typography>
+                <Typography variant='body1' color='textPrimary'>
+                  Sol:{' '}
+                  <Typography variant='body2' color='textSecondary' component='span'>
+                    {item.sol}
+                  </Typography>
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -62,7 +77,6 @@ export const ListPhoto = () => {
           </Card>
         </Grid>
       ))}
-
       {photos.length > 0 && (
         <Grid item xs={12}>
           <Button onClick={loadMoreClick} variant='contained' color='primary'>

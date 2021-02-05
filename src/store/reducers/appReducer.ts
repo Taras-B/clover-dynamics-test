@@ -22,6 +22,9 @@ export const appReducer = produce((draft: Draft<IAppState>, action: AppActionT) 
       draft.alert.open = false
       draft.alert.message = ''
       break
+    case EnumActionType.SET_LOADING:
+      draft.loading = action.payload
+      break
     default:
       break
   }

@@ -1,26 +1,49 @@
 import React from 'react'
 import TEAL from '@material-ui/core/colors/teal'
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles, Theme, Typography } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    backgroundColor: TEAL[400],
+    marginBottom: theme.spacing(4),
+  },
+  title: {
+    backgroundColor: TEAL[300],
     minHeight: '100px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
   },
   margin: {
     margin: theme.spacing(1),
     marginRight: 40,
   },
+  text: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 40,
+    },
+  },
+  rootProgress: {
+    'width': '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
 }))
-export const Header = () => {
+export const Header: React.FC<{ loading: boolean }> = React.memo(({ loading }) => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
-      <Typography variant='h2'>Nasa Rovers Mars</Typography>
+      <div className={classes.title}>
+        <Typography variant='h2' className={classes.text}>
+          Mars Rover Photos
+        </Typography>
+      </div>
+      {loading && (
+        <div className={classes.rootProgress}>
+          <LinearProgress />
+        </div>
+      )}
     </div>
   )
-}
+})
